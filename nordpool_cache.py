@@ -16,9 +16,12 @@ config.read_file(codecs.open(config_file, 'r', 'utf8'))
 
 dir_path = config.get('Nordpool', 'cache_dir')
 city = config.get('Nordpool', 'city')
+page = config.get('Nordpool', 'country_base_page')
+
+# https://github.com/custom-components/nordpool/blob/master/custom_components/nordpool/aio_price.py
 
 def save_price(date):
-	response = urlopen('https://www.nordpoolgroup.com/api/marketdata/page/23?currency=NOK&endDate={}'.format(date))
+	response = urlopen('https://www.nordpoolgroup.com/api/marketdata/page/' + page + '?currency=EUR&endDate={}'.format(date))
 	data = json.loads(response.read())
 
 	with open('{}/{}.json'.format(dir_path, date), 'w') as outfile:
